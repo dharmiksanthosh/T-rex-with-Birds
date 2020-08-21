@@ -1,3 +1,6 @@
+//This code was created using p5.js
+
+
 //Create trex
 var trex;
 var trex_running;
@@ -54,29 +57,36 @@ function preload(){
   groundimage = loadImage("ground2.png")
   cloud_image = loadImage("cloud.png")
   
-  //loading restart button
+  //loading restart button images
   restart_img = loadImage("restart0.png");
   gameover_img = loadImage("gameOver.png");
   
+  //loading bird images
   bird_collided = loadImage("bird1.png");
   bird_fly = loadAnimation("bird1.png","bird2.png");
 }
 
-
-
 function setup(){
   createCanvas(600, 200);
+  
+  //creating sprites for trex and grounds
   trex = createSprite(50, 180, 20, 50);
   trex.addAnimation("running", trex_running);
   trex.scale = 0.5;
   trex.setCollider("rectangle",0,0,65,75);
+  
   invisible_ground = createSprite(300, 195, 600, 1);
   invisible_ground.visible = false;
+  
   ground = createSprite(300, 190, 600, 1);
   ground.addImage("ground", groundimage);
+  
+  //making groups
    obGroup = new Group();
    cloudGroup = new Group();
    birdGroup = new Group();
+  
+  //making sprites for gameOver text and restart button
   gameover = createSprite(300,100,300,30);
   restart = createSprite(300,150,30,50);
   gameover.addImage("over", gameover_img);
@@ -86,8 +96,11 @@ function setup(){
 }
 
 function draw(){
+  
+  //filling the background with white color
   background("white")
   
+  //changing background colors 
   if (count>0&&count<500){
   
    background(rgb(47, 91, 204))
@@ -100,30 +113,37 @@ function draw(){
   
   if (gamestate===play){
   
+    //making trex jump when "space" key is pressed
   if (keyDown("space")&&trex.y>158) 
   {
     trex.velocityY = -12;
   }
+    //making trex duck when "down arrow" is Pressed 
   if (keyWentDown("down")){
   
     trex.addAnimation("trex_duck",trex_ducking);
     trex.changeAnimation("trex_duck");
     trex.setCollider("rectangle",0,0,65,50);
   }
+    //making the trex get back to normal position when the "down arrow" is released 
   if (keyWentUp("down")){
   
     trex.changeAnimation("running");
     trex.setCollider("rectangle",0,0,65,75);
   }
     
+    //adding gravity to the trex
    trex.velocityY = trex.velocityY+1;
     
+    //moving the ground
    ground.velocityX = -4; 
     
+    //replacing the ground to back position to create illusion of infinite ground
     if (ground.x<0){
     ground.x = ground.width/2;
   }
   
+    //calling functios of clouds,cactus and birds
   spawnclouds();
   spawncactus();
   spawnbird();
@@ -131,10 +151,13 @@ function draw(){
    //increase the score
    count = Math.round(World.frameRate/30)+count;
     
+    //switching the gamestate to end when the trex is touching cactus or birds
   if(obGroup.isTouching(trex)||birdGroup.isTouching(trex)){
   
   gamestate = end;
   }
+    
+    //making the restart button invisible
   gameover.visible = false;
   restart.visible = false;
   }
@@ -158,6 +181,7 @@ function draw(){
     gameover.visible = true;
     restart.visible = true;
     
+    //making the game restart when the mouseis pressed over restart button
     if (mousePressedOver(restart)) {
     
      reset();
@@ -171,8 +195,10 @@ function draw(){
   //scoring
   text("Score: "+ count, 450, 50);
   
+  //making the trex collide with the ground
    trex.collide(invisible_ground);
   
+  //drawing the sprites
     drawSprites();
 }
 function spawnclouds(){
