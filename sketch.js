@@ -1,14 +1,19 @@
+//Create trex
 var trex;
 var trex_running;
+var trex_ducking;
+
+//create ground and invinsible ground
 var ground,groundimage;
 var invisible_ground;
+
+//create clouds and obstacles
 var clouds;
 var cloud_image;
 var obstacle,ob1,ob2,ob3,ob4,ob5,ob6;
 
+//create bird
 var bird;
-
-var trex_ducking;
 var bird_fly;
 
 //score
@@ -19,30 +24,41 @@ var play = 1;
 var end = 2;
 var gamestate = play;
 
+//make groups
 var cloudGroup;
 var obGroup;
 var birdGroup;
 
+//make gameovertext and restart button 
 var gameover_img;
 var gameover;
 var restart;
 var restart_img;
 
 function preload(){
+  
+  //loading trex running animation
   trex_running = loadAnimation("trex1.png", "trex3.png", "trex4.png");
+  trex_collide = loadImage("trex_collided.png");
+  trex_ducking = loadAnimation("dinoduck1.png","dinoduck2.png");
+  
+  //loading obstacle images
   ob1 = loadImage("obstacle1.png");
   ob2 = loadImage("obstacle2.png");
   ob3 = loadImage("obstacle3.png");
   ob4 = loadImage("obstacle4.png");
   ob5 = loadImage("obstacle5.png");
   ob6 = loadImage("obstacle6.png");
+  
+  //loading ground and cloud images 
   groundimage = loadImage("ground2.png")
   cloud_image = loadImage("cloud.png")
-  trex_collide = loadImage("trex_collided.png");
+  
+  //loading restart button
   restart_img = loadImage("restart0.png");
   gameover_img = loadImage("gameOver.png");
+  
   bird_collided = loadImage("bird1.png");
-  trex_ducking = loadAnimation("dinoduck1.png","dinoduck2.png");
   bird_fly = loadAnimation("bird1.png","bird2.png");
 }
 
